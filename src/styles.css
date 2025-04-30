@@ -1,7 +1,29 @@
 /* styles.css */
 body {
-  background-color: rebeccapurple;
+  background-color: rgb(158, 118, 197);
 }
 h1 {
   color: aqua;
+}
+.todoItemContainer {
+  border: 1px red solid;
+  background-color: white;
+  width: 300px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  border-radius: 12px;
+}
+
+.todoFormDiv {
+  margin: 10px;
+  justify-self: right;
+}
+.todoParamDiv {
+  margin: 10px;
+  justify-self: right;
+}
+
+.todoTitleDiv {
+  justify-self: left;
 }
