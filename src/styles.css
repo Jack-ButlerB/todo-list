@@ -5,6 +5,9 @@ body {
 h1 {
   color: aqua;
 }
+#todoItemsContainer {
+  display: flex;
+}
 .todoItemContainer {
   border: 1px red solid;
   background-color: white;
@@ -26,4 +29,10 @@ h1 {
 
 .todoTitleDiv {
   justify-self: left;
+}
+
+#newTodoItemButton {
+  width: 300px;
+  height: 200px;
+  font-size: 150px;
 }
