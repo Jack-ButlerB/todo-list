@@ -29,11 +29,11 @@ const FirstTodoItem = new TodoItem(
   "N/A"
 );
 const secondTodoItem = new TodoItem(
-  1,
-  "Buy shoes",
-  "I am hoping to buy shoes",
-  "01/05/2025",
-  "urgent",
+  2,
+  "Fix Bike",
+  "I need to replace the wheel",
+  "02/05/2025",
+  "medium",
   "N/A"
 );
 
