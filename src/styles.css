@@ -4,17 +4,22 @@ p {
 }
 body {
   background-color: rgb(80, 137, 224);
+  display: flex;
+  flex-direction: column; /* stack items top → bottom */
+  justify-content: center; /* center vertically */
+  align-items: center; /* center horizontally */
+  gap: 1rem; /* space between items (optional) */
 }
 h1 {
   color: rgb(70, 70, 70);
-  margin-left: 15px;
 }
 
 .todoListSelectorContainer {
 }
 .todoListSelector {
   border-radius: 20px;
-  width: 60px;
+  width: fit-content;
+  padding: 20px;
 }
 #todoItemsContainer {
   /* display: flexbox; */
