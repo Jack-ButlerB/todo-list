@@ -1,141 +1,190 @@
 const body = document.querySelector("body");
-const todoItemsContainer = document.getElementById("todoItemsContainer");
+export function renderTodoListSelectors(
+  todoList,
+  addItem,
+  editItem,
+  deleteItem,
+  selectableTodoLists
+) {
+  const todoListSelectorContainer = document.createElement("div");
+  todoListSelectorContainer.setAttribute("class", "todoListSelectorContainer");
 
-export function createItemModal(addToArrayParam, toDoListParam) {
-  const createItemDiv = document.createElement("div");
-  createItemDiv.setAttribute("class", "todoItemContainer");
+  const allTodos = document.createElement("button");
+  allTodos.textContent = "All";
+  allTodos.setAttribute("class", "todoListSelector");
+  allTodos.addEventListener("click", function () {
+    renderAllTodos(todoList, addItem, editItem, deleteItem);
+  });
+  todoListSelectorContainer.appendChild(allTodos);
 
-  todoItemsContainer.appendChild(createItemDiv);
+  selectableTodoLists.forEach(function (selectedtodoList) {
+    const todoListSelector = document.createElement("button");
+    todoListSelector.textContent = selectedtodoList;
+    todoListSelector.setAttribute("class", "todoListSelector");
+    todoListSelector.addEventListener("click", function () {
+      console.log(selectedtodoList, "selectedtodoList");
+      renderAllTodos(todoList, addItem, editItem, deleteItem, selectedtodoList);
+    });
+    todoListSelectorContainer.appendChild(todoListSelector);
+  });
+  body.appendChild(todoListSelectorContainer);
+}
+
+export function renderTodoInputModal(addItem, editItem, todoToEdit) {
+  const modal = document.createElement("dialog");
+  todoItemsContainer.appendChild(modal);
   const dialogForm = document.createElement("form");
-  createItemDiv.appendChild(dialogForm);
+  dialogForm.setAttribute("id", "TodoInputForm");
+  modal.appendChild(dialogForm);
 
   const todoItemDetails = {
     title: "Title:",
     description: "Description:",
-    dueDate: "Due Date:",
-    priority: "Priority:",
-    notes: "Notes:",
+    list: "List",
   };
   for (const [key, value] of Object.entries(todoItemDetails)) {
     const detailDiv = document.createElement("div");
     detailDiv.setAttribute("id", key);
-    detailDiv.setAttribute("class", "todoFormDiv");
+    detailDiv.setAttribute("class", "todoParamDiv");
     dialogForm.appendChild(detailDiv);
-    const detailLabel = document.createElement("label");
+    const detailLabel = document.createElement("p");
     detailLabel.textContent = value;
     detailDiv.appendChild(detailLabel);
     const detailInput = document.createElement("input");
     detailInput.setAttribute("id", "inputted" + key);
     detailInput.setAttribute("type", "text");
+    detailInput.style.alignContent = "right";
+    console.log(key);
+    // console.log("todoToEdit[key]", todoToEdit[key]);
+    detailInput.value = todoToEdit ? todoToEdit[key] : "";
     detailDiv.appendChild(detailInput);
   }
-  const sumbitButton = document.createElement("button");
-  sumbitButton.setAttribute("type", "submit");
-  sumbitButton.textContent = "Add Todo Item";
-  dialogForm.appendChild(sumbitButton);
-  sumbitButton.addEventListener("click", function (e) {
+  const submitButton = document.createElement("button");
+  submitButton.setAttribute("type", "submit");
+  submitButton.textContent = todoToEdit ? "Update Todo Item" : "Add Todo Item";
+  dialogForm.appendChild(submitButton);
+  submitButton.addEventListener("click", function (e) {
     e.preventDefault();
     const inputtedTitle = document.getElementById("inputtedtitle");
     const inputtedDescription = document.getElementById("inputteddescription");
-    const inputtedDueDate = document.getElementById("inputteddueDate");
-    const inputtedPriority = document.getElementById("inputtedpriority");
-    const inputtedNotes = document.getElementById("inputtednotes");
-    addToArrayParam(
-      inputtedTitle.value,
-      inputtedDescription.value,
-      inputtedDueDate.value,
-      inputtedPriority.value,
-      inputtedNotes.value
-    );
-    createItemDiv.remove();
-    renderAllTodos(toDoListParam);
+    const inputtedList = document.getElementById("inputtedlist");
+    // if we want to pass the edited todo item instead of all the individual properties, surely we are breaking the rule that the render is dumb
+    if (todoToEdit) {
+      todoToEdit.title = inputtedTitle.value;
+      todoToEdit.description = inputtedDescription.value;
+      todoToEdit.list = inputtedList.value;
+      console.log("event listener", todoToEdit);
+      editItem(todoToEdit);
+    } else {
+      addItem(
+        inputtedTitle.value,
+        inputtedDescription.value,
+        inputtedList.value
+      );
+    }
+    modal.remove();
   });
+  modal.showModal();
 }
-export function renderTodoItem() {
-  const createItemDiv = document.createElement("div");
-  createItemDiv.setAttribute("class", "todoItemContainer");
-
-  todoItemsContainer.appendChild(createItemDiv);
-  const dialogForm = document.createElement("form");
-  createItemDiv.appendChild(dialogForm);
-
-  const todoItemDetails = {
-    title: "Title:",
-    description: "Description:",
-    dueDate: "Due Date:",
-    priority: "Priority:",
-    notes: "Notes:",
-  };
-  for (const [key, value] of Object.entries(todoItemDetails)) {
-    const detailDiv = document.createElement("div");
-    detailDiv.setAttribute("id", key);
-    detailDiv.setAttribute("class", "todoFormDiv");
-    dialogForm.appendChild(detailDiv);
-    const detailLabel = document.createElement("label");
-    detailLabel.textContent = value;
-    detailDiv.appendChild(detailLabel);
-    const detailInput = document.createElement("input");
-    detailInput.setAttribute("name", key);
-    detailInput.setAttribute("type", "text");
-    detailInput.setAttribute("id", key + "input");
-    detailDiv.appendChild(detailInput);
-  }
-}
-export function renderTodoItem2(todoItem) {
+export function renderTodoItem(todoItem, addItem, editItem, deleteItem) {
   const titleParam = todoItem.title;
   const descriptionParam = todoItem.description;
-  const dueDateParam = todoItem.dueDate;
-  const priorityParam = todoItem.priority;
-  const notesParam = todoItem.notes;
-
-  const createItemDiv = document.createElement("div");
-  createItemDiv.setAttribute("class", "todoItemContainer");
-
-  todoItemsContainer.appendChild(createItemDiv);
-  const dialogForm = document.createElement("form");
-  createItemDiv.appendChild(dialogForm);
-
+  const todoItemDiv = document.createElement("div");
+  todoItemDiv.setAttribute("class", "todoItemContainer");
+  todoItemsContainer.appendChild(todoItemDiv);
+  class createTodoItemDetails {
+    constructor(indentifier, lable, value) {
+      this.indentifier = indentifier;
+      this.lable = lable;
+      this.value = value;
+    }
+  }
   const todoItemDetails = [
-    ["title", "Title:", titleParam],
-    ["description", "Description:", descriptionParam],
-    ["dueDate", "Due Date:", dueDateParam],
-    ["priority", "Priority:", priorityParam],
-    ["notes", "Notes:", notesParam],
+    new createTodoItemDetails("title", "Title: ", titleParam),
+    // new createTodoItemDetails("description", "Description: ", descriptionParam),
   ];
   for (const todoItemDetail of todoItemDetails) {
     const detailDiv = document.createElement("div");
-    detailDiv.setAttribute("id", todoItemDetail[0]);
-    detailDiv.setAttribute("class", "todoFormDiv");
-    dialogForm.appendChild(detailDiv);
-    const detailLabel = document.createElement("label");
-    detailLabel.textContent = todoItemDetail[1];
+    detailDiv.setAttribute("id", todoItemDetail.indentifier);
+    detailDiv.setAttribute("class", "todoParamDiv");
+    todoItemDiv.appendChild(detailDiv);
+    const detailLabel = document.createElement("p");
+    detailLabel.textContent = todoItemDetail.lable;
     detailDiv.appendChild(detailLabel);
-    const detailInput = document.createElement("input");
-    detailInput.setAttribute("name", todoItemDetail[0]);
-    detailInput.setAttribute("type", "text");
-    if (todoItem) {
-      detailInput.setAttribute("value", todoItemDetail[2]);
-      detailInput.setAttribute("readOnly", "true");
-    }
-    detailDiv.appendChild(detailInput);
+    const detailValue = document.createElement("p");
+    detailValue.setAttribute("value", todoItemDetail.indentifier);
+    detailValue.textContent = todoItemDetail.value;
+    detailDiv.appendChild(detailValue);
   }
+
+  const buttonDiv = document.createElement("div");
+  todoItemDiv.appendChild(buttonDiv);
+  buttonDiv.setAttribute("id", "buttonDiv");
+  buttonDiv.setAttribute("class", "todoParamDiv");
+
+  const editButton = document.createElement("button");
+  editButton.setAttribute("id", "editButton");
+  editButton.setAttribute("class", "buttons");
+  editButton.textContent = "Edit";
+  todoItemDiv.appendChild(editButton);
+  editButton.addEventListener("click", function (e) {
+    console.log(todoItem);
+    renderTodoInputModal(addItem, editItem, todoItem);
+  });
+
+  const deleteButton = document.createElement("button");
+  deleteButton.setAttribute("id", "deleteButton");
+  deleteButton.setAttribute("class", "buttons");
+  deleteButton.textContent = "Delete";
+  todoItemDiv.appendChild(deleteButton);
+  deleteButton.addEventListener("click", function (e) {
+    deleteItem(todoItem);
+  });
+  buttonDiv.appendChild(editButton);
+  buttonDiv.appendChild(deleteButton);
 }
 
-export function renderNewTodoItemButton(addToArrayParam, toDoListParam) {
+export function renderNewTodoItemButton(addItem, editItem) {
   const newTodoItemButton = document.createElement("button");
   newTodoItemButton.textContent = "+";
   newTodoItemButton.setAttribute("id", "newTodoItemButton");
   todoItemsContainer.appendChild(newTodoItemButton);
   newTodoItemButton.addEventListener("click", function (e) {
-    newTodoItemButton.remove();
-    createItemModal(addToArrayParam, toDoListParam);
+    renderTodoInputModal(addItem, editItem);
   });
 }
 
-export function renderAllTodos(toDoListParam, addToArray, toDoList) {
-  todoItemsContainer.replaceChildren();
-  for (const toDos of toDoListParam) {
-    renderTodoItem2(toDos);
+export function renderAllTodos(
+  toDoList,
+  addItem,
+  editItem,
+  deleteItem,
+  selectedList
+) {
+  if (document.getElementById("todoItemsContainer")) {
+    const todoItemsContainer = document.getElementById("todoItemsContainer");
+    todoItemsContainer.replaceChildren();
+  } else {
+    const todoItemsContainer = document.createElement("div");
+    todoItemsContainer.setAttribute("id", "todoItemsContainer");
+    body.appendChild(todoItemsContainer);
   }
-  renderNewTodoItemButton(addToArray, toDoList);
+
+  if (selectedList) {
+    console.log(selectedList);
+    for (const toDo of toDoList) {
+      if (toDo.list === selectedList) {
+        renderTodoItem(toDo, addItem, editItem, deleteItem);
+      }
+    }
+  } else {
+    for (const toDo of toDoList) {
+      renderTodoItem(toDo, addItem, editItem, deleteItem);
+    }
+  }
+
+  console.log(toDoList);
+  renderNewTodoItemButton(addItem, editItem);
+
+  todoItemsContainer.remove;
 }

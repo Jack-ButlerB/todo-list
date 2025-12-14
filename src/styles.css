@@ -1,38 +1,73 @@
 /* styles.css */
+p {
+  margin: 0;
+}
 body {
-  background-color: rgb(158, 118, 197);
+  background-color: rgb(80, 137, 224);
 }
 h1 {
-  color: aqua;
+  color: rgb(70, 70, 70);
+  margin-left: 15px;
+}
+
+.todoListSelectorContainer {
+}
+.todoListSelector {
+  border-radius: 20px;
+  width: 60px;
 }
 #todoItemsContainer {
-  display: flex;
+  /* display: flexbox; */
+  justify-items: left;
+  /* border: 1px rgb(70, 70, 70) solid; */
 }
 .todoItemContainer {
-  border: 1px red solid;
+  border: 1px rgb(70, 70, 70) solid;
   background-color: white;
   width: 300px;
-  height: 200px;
+  height: 80px;
   display: flex;
-  justify-content: center;
   border-radius: 12px;
+  align-items: center;
+  position: relative;
+  margin-bottom: 4px;
 }
 
 .todoFormDiv {
   margin: 10px;
   justify-self: right;
 }
-.todoParamDiv {
-  margin: 10px;
-  justify-self: right;
+#TodoInputForm {
+  /* display: inline; */
+  width: 300px;
 }
-
-.todoTitleDiv {
-  justify-self: left;
+.todoParamDiv {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1px;
+  margin: 20px;
+  /* border: 1px red solid; */
+  width: 150px;
 }
 
 #newTodoItemButton {
   width: 300px;
-  height: 200px;
-  font-size: 150px;
+  height: 80px;
+  font-size: 40px;
+  border-radius: 12px;
+}
+
+#buttonDiv {
+  position: absolute;
+  right: 0px;
+  display: inline;
+  width: 55px;
+}
+
+.buttons {
+  font-style: italic;
+  height: 30px;
+  border-radius: 10px;
+  right: 10px;
+  width: 55px;
 }
