@@ -38,13 +38,16 @@ h1 {
   margin-bottom: 4px;
 }
 
-.todoFormDiv {
-  margin: 10px;
-  justify-self: right;
+#todoInputDialog {
+  border-radius: 20px;
+  background-color: lightgrey;
+  margin-top: 265px;
 }
-#TodoInputForm {
+#todoInputForm {
   /* display: inline; */
   width: 300px;
+  border-radius: 20px;
+  background-color: lightgrey;
 }
 .todoParamDiv {
   display: grid;
@@ -71,7 +74,7 @@ h1 {
 
 .buttons {
   font-style: italic;
-  height: 30px;
+  height: 36px;
   border-radius: 10px;
   right: 10px;
   width: 55px;

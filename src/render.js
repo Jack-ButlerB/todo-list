@@ -31,11 +31,13 @@ export function renderTodoListSelectors(
 }
 
 export function renderTodoInputModal(addItem, editItem, todoToEdit) {
-  const modal = document.createElement("dialog");
-  todoItemsContainer.appendChild(modal);
-  const dialogForm = document.createElement("form");
-  dialogForm.setAttribute("id", "TodoInputForm");
-  modal.appendChild(dialogForm);
+  const todoInputDialog = document.createElement("dialog");
+  todoInputDialog.setAttribute("id", "todoInputDialog");
+
+  todoItemsContainer.appendChild(todoInputDialog);
+  const todoInputForm = document.createElement("form");
+  todoInputForm.setAttribute("id", "todoInputForm");
+  todoInputDialog.appendChild(todoInputForm);
 
   const todoItemDetails = {
     title: "Title:",
@@ -46,7 +48,7 @@ export function renderTodoInputModal(addItem, editItem, todoToEdit) {
     const detailDiv = document.createElement("div");
     detailDiv.setAttribute("id", key);
     detailDiv.setAttribute("class", "todoParamDiv");
-    dialogForm.appendChild(detailDiv);
+    todoInputForm.appendChild(detailDiv);
     const detailLabel = document.createElement("p");
     detailLabel.textContent = value;
     detailDiv.appendChild(detailLabel);
@@ -62,7 +64,7 @@ export function renderTodoInputModal(addItem, editItem, todoToEdit) {
   const submitButton = document.createElement("button");
   submitButton.setAttribute("type", "submit");
   submitButton.textContent = todoToEdit ? "Update Todo Item" : "Add Todo Item";
-  dialogForm.appendChild(submitButton);
+  todoInputForm.appendChild(submitButton);
   submitButton.addEventListener("click", function (e) {
     e.preventDefault();
     const inputtedTitle = document.getElementById("inputtedtitle");
@@ -82,9 +84,9 @@ export function renderTodoInputModal(addItem, editItem, todoToEdit) {
         inputtedList.value
       );
     }
-    modal.remove();
+    todoInputDialog.remove();
   });
-  modal.showModal();
+  todoInputDialog.showModal();
 }
 export function renderTodoItem(todoItem, addItem, editItem, deleteItem) {
   const titleParam = todoItem.title;
@@ -125,7 +127,7 @@ export function renderTodoItem(todoItem, addItem, editItem, deleteItem) {
   const editButton = document.createElement("button");
   editButton.setAttribute("id", "editButton");
   editButton.setAttribute("class", "buttons");
-  editButton.textContent = "Edit";
+  editButton.textContent = "More Details";
   todoItemDiv.appendChild(editButton);
   editButton.addEventListener("click", function (e) {
     console.log(todoItem);
