@@ -13,15 +13,7 @@ class TodoItem {
     }
     this.list = list;
   }
-  // add function that creates config for render file, one to do with Simon
 }
-
-// Show Simon alt z
-
-// Add abilty to expand a todo item to show all the details
-// Only show title initially, then expand show a bigger todo
-// Maybe there are 2 classes, one for expaned one for not
-// edit show all the information
 
 function readStorage() {
   const todoList = JSON.parse(localStorage.getItem("storedTodoList"));
@@ -126,16 +118,3 @@ renderTodoListSelectors(
 );
 
 renderAllTodos(readStorage(), addItem, editItem, deleteItem);
-
-// function render(todoList) {
-//   renderAllTodos(todoList, addItem, setStorage);
-// }
-
-// function that
-
-// look to build out the information from each todo
-// something to consider, would be better,
-
-// 2 option, array of lists, an item belongs to a list, if you want to move then you have to remove from one and add to other
-// option 2, list, each item have a property of the list they belong to, update this property to change list,
-// filter within this file, with create a sub array, function that goes through all the flat list and fine each list name, then create sub lists

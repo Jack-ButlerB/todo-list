@@ -70,7 +70,6 @@ export function renderTodoInputModal(addItem, editItem, todoToEdit) {
     const inputtedTitle = document.getElementById("inputtedtitle");
     const inputtedDescription = document.getElementById("inputteddescription");
     const inputtedList = document.getElementById("inputtedlist");
-    // if we want to pass the edited todo item instead of all the individual properties, surely we are breaking the rule that the render is dumb
     if (todoToEdit) {
       todoToEdit.title = inputtedTitle.value;
       todoToEdit.description = inputtedDescription.value;
@@ -185,8 +184,12 @@ export function renderAllTodos(
     }
   }
 
-  console.log(toDoList);
+  console.log("final console.log of renderAllTodos", toDoList);
   renderNewTodoItemButton(addItem, editItem);
-
-  todoItemsContainer.remove;
+  if (toDoList.length > 7) {
+    console.log("todoList array is larger than 7, removing descriptive text");
+    const siteFooterExplainer = document.getElementById("siteExplainerText");
+    siteFooterExplainer ? siteFooterExplainer.remove() : null;
+  }
+  // todoItemsContainer.remove;
 }
