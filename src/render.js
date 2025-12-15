@@ -63,7 +63,7 @@ export function renderTodoInputModal(addItem, editItem, todoToEdit) {
   }
   const submitButton = document.createElement("button");
   submitButton.setAttribute("type", "submit");
-  submitButton.textContent = todoToEdit ? "Update Todo Item" : "Add Todo Item";
+  submitButton.textContent = todoToEdit ? "Update Details" : "Add Todo Item";
   todoInputForm.appendChild(submitButton);
   submitButton.addEventListener("click", function (e) {
     e.preventDefault();

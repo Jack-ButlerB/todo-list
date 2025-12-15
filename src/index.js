@@ -104,14 +104,14 @@ if (!localStorage.getItem("storedTodoList")) {
     new TodoItem(
       0,
       "Wash clothes",
-      "Hard Coded for Demo, saved in application storage",
+      "For Demo, pre-saved in application storage",
       undefined,
       "Today"
     ),
     new TodoItem(
       1,
       "Hang washing",
-      "Hard Coded for Demo, saved in application storage",
+      "For Demo, pre-saved in application storage",
       undefined,
       "Tomorrow"
     ),
