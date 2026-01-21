@@ -211,7 +211,7 @@ export function renderAllTodos(
   console.log("final console.log of renderAllTodos", toDoList);
   renderNewTodoItemButton(addItem, editItem);
   if (toDoList.length >= 3) {
-    console.log("todoList array is larger than 7, removing descriptive text");
+    console.log("todoList array is larger than 3, removing descriptive text");
     const siteFooterExplainer = document.getElementById("siteExplainerText");
     siteFooterExplainer ? siteFooterExplainer.remove() : null;
   }
