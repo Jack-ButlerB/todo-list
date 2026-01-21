@@ -1,5 +1,5 @@
 import "./styles.css";
-import { renderTodoListSelectors, renderAllTodos } from "./render";
+import { renderTodoListSelectors, renderAllTodos, renderPage } from "./render";
 
 class TodoItem {
   constructor(id, title, description, dateCreatedString, list) {
@@ -16,6 +16,7 @@ class TodoItem {
 }
 
 function readStorage() {
+  console.log("Reading storage");
   const todoList = JSON.parse(localStorage.getItem("storedTodoList"));
   const sortableTodoList = todoList.map(
     (todo) =>
@@ -63,7 +64,10 @@ function addItem(titleParam, descriptionParam, listParam) {
   todoList.push(inputtedTodoItem);
   console.log("Add", todoList);
   setStorage(todoList);
-  renderAllTodos(readStorage(), addItem, editItem, deleteItem);
+  console.log("add item readstorage before renderAlltodos", readStorage());
+  const newTodoList = readStorage();
+
+  renderPage(newTodoList, addItem, editItem, deleteItem, selectableTodoLists);
 }
 
 function editItem(todoItem) {
@@ -75,7 +79,10 @@ function editItem(todoItem) {
   );
   updatedTodoList.push(todoItem);
   setStorage(updatedTodoList);
-  renderAllTodos(readStorage(), addItem, editItem, deleteItem);
+  console.log("edit item readstorage before renderAlltodos", readStorage());
+  const newTodoList = readStorage();
+
+  renderPage(newTodoList, addItem, editItem, deleteItem, selectableTodoLists);
 }
 function deleteItem(todoItem) {
   const todoList = readStorage();
@@ -86,7 +93,9 @@ function deleteItem(todoItem) {
   todoList.splice(todoItemIndex, 1);
   console.log("delete", todoList);
   setStorage(todoList);
-  renderAllTodos(readStorage(), addItem, editItem, deleteItem);
+  const newTodoList = readStorage();
+
+  renderPage(newTodoList, addItem, editItem, deleteItem, selectableTodoLists);
 }
 
 const selectableTodoLists = ["Today", "Tomorrow"];
@@ -109,12 +118,14 @@ if (!localStorage.getItem("storedTodoList")) {
     ),
   ]);
 }
-renderTodoListSelectors(
-  readStorage(),
-  addItem,
-  editItem,
-  deleteItem,
-  selectableTodoLists
-);
+const freshTodoList = readStorage();
+renderPage(freshTodoList, addItem, editItem, deleteItem, selectableTodoLists);
+// renderTodoListSelectors(
+//   readStorage(),
+//   addItem,
+//   editItem,
+//   deleteItem,
+//   selectableTodoLists
+// );
 
-renderAllTodos(readStorage(), addItem, editItem, deleteItem);
+// renderAllTodos(readStorage(), addItem, editItem, deleteItem);

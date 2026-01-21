@@ -1,19 +1,35 @@
 const body = document.querySelector("body");
 export function renderTodoListSelectors(
-  todoList,
+  todoList1,
   addItem,
   editItem,
   deleteItem,
   selectableTodoLists
 ) {
+  if (document.getElementById("todoListSelectorContainer")) {
+    const todoListSelectorContainer = document.getElementById(
+      "todoListSelectorContainer"
+    );
+    todoListSelectorContainer.remove();
+  }
+
+  // const seletors = document.getElementById("todoListSelectorContainer");
+  // if (todoListSelectorContainer.firstChild) {
+  //   todoListSelectorContainer.remove();
+  // }
+
   const todoListSelectorContainer = document.createElement("div");
+
+  // todoListSelectorContainer.removeChild();
   todoListSelectorContainer.setAttribute("class", "todoListSelectorContainer");
+  todoListSelectorContainer.setAttribute("id", "todoListSelectorContainer");
 
   const allTodos = document.createElement("button");
   allTodos.textContent = "All";
   allTodos.setAttribute("class", "todoListSelector");
   allTodos.addEventListener("click", function () {
-    renderAllTodos(todoList, addItem, editItem, deleteItem);
+    console.log("list selected, expect reading storage");
+    renderAllTodos(todoList1, addItem, editItem, deleteItem);
   });
   todoListSelectorContainer.appendChild(allTodos);
 
@@ -22,8 +38,16 @@ export function renderTodoListSelectors(
     todoListSelector.textContent = selectedtodoList;
     todoListSelector.setAttribute("class", "todoListSelector");
     todoListSelector.addEventListener("click", function () {
+      console.log("list selected, expect reading storage");
+
       console.log(selectedtodoList, "selectedtodoList");
-      renderAllTodos(todoList, addItem, editItem, deleteItem, selectedtodoList);
+      renderAllTodos(
+        todoList1,
+        addItem,
+        editItem,
+        deleteItem,
+        selectedtodoList
+      );
     });
     todoListSelectorContainer.appendChild(todoListSelector);
   });
@@ -164,12 +188,12 @@ export function renderAllTodos(
 ) {
   if (document.getElementById("todoItemsContainer")) {
     const todoItemsContainer = document.getElementById("todoItemsContainer");
-    todoItemsContainer.replaceChildren();
-  } else {
-    const todoItemsContainer = document.createElement("div");
-    todoItemsContainer.setAttribute("id", "todoItemsContainer");
-    body.appendChild(todoItemsContainer);
+    todoItemsContainer.remove();
   }
+
+  const todoItemsContainer = document.createElement("div");
+  todoItemsContainer.setAttribute("id", "todoItemsContainer");
+  body.appendChild(todoItemsContainer);
 
   if (selectedList) {
     console.log(selectedList);
@@ -186,10 +210,28 @@ export function renderAllTodos(
 
   console.log("final console.log of renderAllTodos", toDoList);
   renderNewTodoItemButton(addItem, editItem);
-  if (toDoList.length > 7) {
+  if (toDoList.length >= 3) {
     console.log("todoList array is larger than 7, removing descriptive text");
     const siteFooterExplainer = document.getElementById("siteExplainerText");
     siteFooterExplainer ? siteFooterExplainer.remove() : null;
   }
   // todoItemsContainer.remove;
+}
+
+export function renderPage(
+  readStorage,
+  addItem,
+  editItem,
+  deleteItem,
+  selectableTodoLists
+) {
+  renderTodoListSelectors(
+    readStorage,
+    addItem,
+    editItem,
+    deleteItem,
+    selectableTodoLists
+  );
+
+  renderAllTodos(readStorage, addItem, editItem, deleteItem);
 }
